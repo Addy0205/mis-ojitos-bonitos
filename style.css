@@ -1,0 +1,2028 @@
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+
+body {
+
+    overflow: hidden;
+
+    background: #080807;
+
+    color: #ffffff;
+
+    font-family:
+        "Segoe UI",
+        Consolas,
+        monospace;
+}
+
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+}
+
+
+
+/* =========================================================
+   CONTROL DE MÚSICA
+========================================================= */
+
+.music-control {
+
+    position: fixed;
+
+    top: 24px;
+    right: 24px;
+
+    width: 42px;
+    height: 42px;
+
+    border:
+        1px solid rgba(255,255,255,.18);
+
+    border-radius: 50%;
+
+    background:
+        rgba(20,20,18,.72);
+
+    backdrop-filter:
+        blur(12px);
+
+    color: #ffffff;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    opacity: 0;
+    visibility: hidden;
+
+    z-index: 100;
+
+    transition:
+        opacity .8s ease,
+        transform .4s ease,
+        background .4s ease;
+}
+
+
+.music-control.visible {
+
+    opacity: 1;
+
+    visibility: visible;
+}
+
+
+.music-control:hover {
+
+    transform:
+        scale(1.08);
+
+    background:
+        rgba(45,45,40,.9);
+}
+
+
+.music-control.playing {
+
+    animation:
+        musicPulse
+        2.5s
+        ease-in-out
+        infinite;
+}
+
+
+@keyframes musicPulse {
+
+    0%,
+    100% {
+
+        box-shadow:
+            0 0 0
+            rgba(255,255,255,0);
+
+    }
+
+    50% {
+
+        box-shadow:
+            0 0 22px
+            rgba(255,255,255,.12);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   TERMINAL
+========================================================= */
+
+.terminal {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width:
+        min(900px, 90vw);
+
+    height:
+        min(560px, 78vh);
+
+    transform:
+        translate(-50%, -50%)
+        scale(.96)
+        translateY(20px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(28,28,25,.96),
+            rgba(10,10,9,.97)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 35px 100px
+        rgba(0,0,0,.65),
+
+        inset 0 1px 0
+        rgba(255,255,255,.04);
+
+    z-index: 80;
+
+    /*
+        La terminal comienza invisible
+        y entra lentamente.
+    */
+
+    opacity: 0;
+
+    animation:
+        terminalEnter
+        1.6s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+}
+
+
+
+/* =========================================================
+   ENTRADA SUAVE DE TERMINAL
+========================================================= */
+
+@keyframes terminalEnter {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scale(.94)
+            translateY(30px);
+
+        filter:
+            blur(8px);
+
+    }
+
+
+    60% {
+
+        opacity: 1;
+
+        filter:
+            blur(0);
+
+    }
+
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scale(1)
+            translateY(0);
+
+        filter:
+            blur(0);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   SALIDA SUAVE DE TERMINAL
+========================================================= */
+
+.terminal.hidden {
+
+    opacity: 0;
+
+    transform:
+        translate(-50%, -50%)
+        scale(.97)
+        translateY(-35px);
+
+    filter:
+        blur(5px);
+
+    pointer-events: none;
+
+    transition:
+
+        opacity
+        1.3s
+        cubic-bezier(.22,1,.36,1),
+
+        transform
+        1.3s
+        cubic-bezier(.22,1,.36,1),
+
+        filter
+        1.3s
+        ease;
+
+    animation: none;
+}
+
+
+
+/* =========================================================
+   TERMINAL HEADER
+========================================================= */
+
+.terminal-header {
+
+    position: relative;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        0 18px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+
+.terminal-buttons {
+
+    display: flex;
+
+    gap: 8px;
+}
+
+
+.terminal-buttons .btn {
+
+    width: 11px;
+    height: 11px;
+
+    border-radius: 50%;
+}
+
+
+.btn.red {
+
+    background:
+        #ff5f57;
+}
+
+
+.btn.yellow {
+
+    background:
+        #febc2e;
+}
+
+
+.btn.green {
+
+    background:
+        #28c840;
+}
+
+
+.terminal-title {
+
+    position: absolute;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        rgba(255,255,255,.45);
+
+    font-size: 13px;
+
+    letter-spacing: .5px;
+}
+
+
+
+/* =========================================================
+   TERMINAL BODY
+========================================================= */
+
+.terminal-body {
+
+    height:
+        calc(100% - 48px);
+
+    padding:
+        30px;
+
+    overflow: hidden;
+
+    color:
+        rgba(255,255,255,.82);
+
+    font-size: 14px;
+
+    line-height: 1.8;
+}
+
+
+.terminal-line {
+
+    min-height: 25px;
+
+    white-space: pre-wrap;
+
+    /*
+        Cada línea aparece ligeramente suave.
+    */
+
+    animation:
+        terminalLineAppear
+        .45s
+        ease-out;
+}
+
+
+@keyframes terminalLineAppear {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(5px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+
+.terminal-command {
+
+    color:
+        #d7d7d0;
+}
+
+
+.terminal-success {
+
+    color:
+        #9ed58b;
+}
+
+
+.terminal-error {
+
+    color:
+        #d98c7d;
+}
+
+
+.terminal-highlight {
+
+    color:
+        #e6bd43;
+
+    text-shadow:
+        0 0 14px
+        rgba(230,189,67,.18);
+}
+
+
+
+/* =========================================================
+   BOTÓN TERMINAL
+========================================================= */
+
+.start-button {
+
+    margin-top:
+        24px;
+
+    padding:
+        12px 24px;
+
+    border:
+        1px solid
+        rgba(230,189,67,.35);
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(230,189,67,.08);
+
+    color:
+        #e8c75a;
+
+    font-family:
+        inherit;
+
+    font-size:
+        13px;
+
+    letter-spacing:
+        .8px;
+
+    cursor:
+        pointer;
+
+    opacity:
+        0;
+
+    transform:
+        translateY(10px);
+
+    transition:
+
+        opacity
+        .8s ease,
+
+        transform
+        .8s cubic-bezier(.22,1,.36,1),
+
+        background
+        .3s ease,
+
+        box-shadow
+        .3s ease;
+}
+
+
+.start-button.visible {
+
+    opacity:
+        1;
+
+    transform:
+        translateY(0);
+}
+
+
+.start-button:hover {
+
+    background:
+        rgba(230,189,67,.15);
+
+    box-shadow:
+        0 0 25px
+        rgba(230,189,67,.10);
+
+    transform:
+        translateY(-2px);
+}
+
+
+
+/* =========================================================
+   ESCENA FLORES
+========================================================= */
+
+.flower-scene {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 75%,
+            rgba(112,91,25,.16),
+            transparent 35%
+        ),
+
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(255,255,255,.035),
+            transparent 45%
+        ),
+
+        #080807;
+
+    transition:
+
+        opacity
+        1.8s ease,
+
+        visibility
+        1.8s ease;
+
+    z-index: 20;
+}
+
+
+.flower-scene.visible {
+
+    opacity:
+        1;
+
+    visibility:
+        visible;
+}
+
+
+
+/* =========================================================
+   CONTENIDO FLORES
+========================================================= */
+
+.flower-content {
+
+    position: absolute;
+
+    left: 50%;
+    top: 22%;
+
+    transform:
+        translateX(-50%);
+
+    width:
+        min(700px, 90vw);
+
+    text-align:
+        center;
+
+    z-index:
+        40;
+}
+
+
+.flower-status {
+
+    color:
+        rgba(255,255,255,.45);
+
+    font-size:
+        13px;
+
+    letter-spacing:
+        1px;
+}
+
+
+.loading-dots::after {
+
+    content:
+        "...";
+
+    display:
+        inline-block;
+
+    width:
+        24px;
+
+    animation:
+        dots
+        1.5s
+        infinite;
+}
+
+
+@keyframes dots {
+
+    0% {
+        opacity:
+            .2;
+    }
+
+    50% {
+        opacity:
+            1;
+    }
+
+    100% {
+        opacity:
+            .2;
+    }
+
+}
+
+
+.generation-status {
+
+    margin-top:
+        14px;
+
+    min-height:
+        25px;
+
+    color:
+        rgba(255,255,255,.7);
+
+    font-size:
+        13px;
+}
+
+
+.love-message {
+
+    margin-top:
+        30px;
+
+    min-height:
+        60px;
+
+    color:
+        #f0ca4b;
+
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    font-size:
+        clamp(20px, 3vw, 30px);
+
+    font-weight:
+        300;
+
+    line-height:
+        1.5;
+
+    text-shadow:
+        0 0 25px
+        rgba(240,202,75,.12);
+}
+
+
+
+/* =========================================================
+   PARTÍCULAS
+========================================================= */
+
+.particles {
+
+    position: absolute;
+
+    inset: 0;
+
+    overflow:
+        hidden;
+
+    pointer-events:
+        none;
+
+    z-index:
+        5;
+}
+
+
+.particle {
+
+    position: absolute;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(255,255,255,.55);
+
+    box-shadow:
+        0 0 8px
+        rgba(255,255,255,.25);
+
+    opacity:
+        0;
+
+    animation:
+        particleFloat
+        var(--duration)
+        ease-in-out
+        var(--delay)
+        infinite;
+}
+
+
+@keyframes particleFloat {
+
+    0% {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(20px)
+            scale(.7);
+
+    }
+
+    50% {
+
+        opacity:
+            .65;
+
+    }
+
+    100% {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(-45px)
+            scale(1);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   JARDÍN
+========================================================= */
+
+.garden {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -20px;
+
+    width:
+        min(850px, 95vw);
+
+    height:
+        58vh;
+
+    transform:
+        translateX(-50%);
+
+    z-index:
+        10;
+}
+
+
+.tulip {
+
+    position: absolute;
+
+    bottom: 0;
+
+    transform:
+
+        translateX(-50%)
+        translateY(100px)
+        rotate(var(--rotate))
+        scale(.85);
+
+    transform-origin:
+        bottom center;
+
+    opacity:
+        0;
+
+    filter:
+        brightness(var(--brightness));
+
+    transition:
+
+        opacity
+        1.4s ease,
+
+        transform
+        2s cubic-bezier(.22,1,.36,1);
+}
+
+
+.tulip.visible {
+
+    opacity:
+        1;
+
+    transform:
+
+        translateX(-50%)
+        translateY(0)
+        rotate(var(--rotate))
+        scale(.85);
+}
+
+
+.tulip.sway {
+
+    animation:
+        tulipSway
+        4.5s
+        ease-in-out
+        infinite;
+}
+
+
+.tulip svg {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+}
+
+
+@keyframes tulipSway {
+
+    0%,
+    100% {
+
+        transform:
+            rotate(0deg);
+
+    }
+
+    50% {
+
+        transform:
+            rotate(1.5deg);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   ESCENA FINAL
+========================================================= */
+
+.tulip-scene {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 22%,
+            rgba(116,96,31,.14),
+            transparent 34%
+        ),
+
+        radial-gradient(
+            circle at 50% 85%,
+            rgba(71,59,24,.12),
+            transparent 38%
+        ),
+
+        #070706;
+
+    opacity:
+        0;
+
+    visibility:
+        hidden;
+
+    transition:
+
+        opacity
+        1.8s ease,
+
+        visibility
+        1.8s ease;
+
+    z-index:
+        60;
+}
+
+
+.tulip-scene.visible {
+
+    opacity:
+        1;
+
+    visibility:
+        visible;
+}
+
+
+.tulip-night {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 35%,
+            rgba(255,255,255,.025),
+            transparent 38%
+        );
+
+    pointer-events:
+        none;
+
+    z-index:
+        1;
+}
+
+
+
+/* =========================================================
+   RAMO FINAL
+========================================================= */
+
+.tulip-final-garden {
+
+    position: absolute;
+
+    left: 50%;
+    top: 2vh;
+
+    width:
+        min(900px, 94vw);
+
+    height:
+        62vh;
+
+    transform:
+
+        translateX(-50%)
+        scale(.78);
+
+    transform-origin:
+        center bottom;
+
+    overflow:
+        visible;
+
+    z-index:
+        10;
+}
+
+
+.final-bouquet {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    transform:
+        translateX(-50%);
+
+    overflow:
+        visible;
+}
+
+
+
+/* =========================================================
+   TULIPANES FINALES
+========================================================= */
+
+.final-tulip {
+
+    position: absolute;
+
+    left:
+        var(--left);
+
+    bottom:
+        var(--bottom);
+
+    width:
+        var(--width);
+
+    height:
+        var(--height);
+
+    transform:
+
+        translateX(-50%)
+        translateY(220px)
+        scale(.08)
+        rotate(var(--rotate));
+
+    transform-origin:
+        bottom center;
+
+    opacity:
+        0;
+
+    pointer-events:
+        none;
+
+    transition:
+
+        opacity
+        1.4s ease,
+
+        transform
+        2.5s cubic-bezier(.22,1,.36,1);
+}
+
+
+.final-tulip.visible {
+
+    opacity:
+        1;
+
+    transform:
+
+        translateX(-50%)
+        translateY(0)
+        scale(1)
+        rotate(var(--rotate));
+}
+
+
+.final-tulip-svg {
+
+    display:
+        block;
+
+    width:
+        100%;
+
+    height:
+        100%;
+}
+
+
+
+/* =========================================================
+   PROFUNDIDAD DEL RAMO
+========================================================= */
+
+.tulip-back-left,
+.tulip-back-right {
+    z-index: 8;
+}
+
+
+.tulip-middle-left,
+.tulip-middle-right {
+    z-index: 12;
+}
+
+
+.tulip-left,
+.tulip-right {
+    z-index: 18;
+}
+
+
+.tulip-center-left,
+.tulip-center-right {
+    z-index: 22;
+}
+
+
+.tulip-main-left,
+.tulip-main-right {
+    z-index: 25;
+}
+
+
+.tulip-main {
+    z-index: 30;
+}
+
+
+
+/* =========================================================
+   BASE DEL RAMO
+========================================================= */
+
+.bouquet-base {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -5px;
+
+    width:
+        75%;
+
+    height:
+        130px;
+
+    transform:
+        translateX(-50%);
+
+    z-index:
+        35;
+
+    pointer-events:
+        none;
+}
+
+
+.bouquet-leaf {
+
+    position: absolute;
+
+    bottom: 0;
+
+    width:
+        180px;
+
+    height:
+        70px;
+
+    border-radius:
+        100% 0 100% 0;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #5b743e,
+            #34472b
+        );
+
+    opacity:
+        .9;
+}
+
+
+.leaf-left {
+
+    left:
+        5%;
+
+    transform:
+        rotate(-25deg);
+}
+
+
+.leaf-center-left {
+
+    left:
+        28%;
+
+    transform:
+        rotate(-12deg);
+}
+
+
+.leaf-center-right {
+
+    right:
+        28%;
+
+    transform:
+        scaleX(-1)
+        rotate(-12deg);
+}
+
+
+.leaf-right {
+
+    right:
+        5%;
+
+    transform:
+        scaleX(-1)
+        rotate(-25deg);
+}
+
+
+
+/* =========================================================
+   CARTA
+========================================================= */
+
+.letter-container {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 3vh;
+
+    width:
+        min(430px, 82vw);
+
+    height:
+        350px;
+
+    /*
+        La carta empieza bastante abajo.
+        Después sube suavemente.
+    */
+
+    transform:
+
+        translateX(-50%)
+        translateY(260px)
+        scale(.88);
+
+    opacity:
+        0;
+
+    z-index:
+        50;
+
+    pointer-events:
+        none;
+
+    transition:
+
+        opacity
+        1.4s ease,
+
+        transform
+        2s cubic-bezier(.16,1,.3,1);
+}
+
+
+.letter-container.visible {
+
+    opacity:
+        1;
+
+    transform:
+
+        translateX(-50%)
+        translateY(0)
+        scale(1);
+
+    animation:
+
+        letterArrival
+        .9s
+        ease-out
+        1.8s;
+}
+
+
+
+/* =========================================================
+   ASENTAMIENTO
+========================================================= */
+
+@keyframes letterArrival {
+
+    0% {
+
+        transform:
+
+            translateX(-50%)
+            translateY(0)
+            scale(1);
+
+    }
+
+    45% {
+
+        transform:
+
+            translateX(-50%)
+            translateY(-7px)
+            scale(1.015);
+
+    }
+
+    100% {
+
+        transform:
+
+            translateX(-50%)
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   LUZ DETRÁS DE LA CARTA
+========================================================= */
+
+.letter-container::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    bottom:
+        -35px;
+
+    width:
+        75%;
+
+    height:
+        90px;
+
+    transform:
+
+        translateX(-50%)
+        scale(.7);
+
+    background:
+
+        radial-gradient(
+            ellipse,
+            rgba(224,188,70,.16),
+            transparent 70%
+        );
+
+    filter:
+        blur(18px);
+
+    opacity:
+        0;
+
+    transition:
+
+        opacity
+        1.5s ease,
+
+        transform
+        2s ease;
+
+    pointer-events:
+        none;
+
+    z-index:
+        -1;
+}
+
+
+.letter-container.visible::before {
+
+    opacity:
+        1;
+
+    transform:
+
+        translateX(-50%)
+        scale(1);
+}
+
+
+
+/* =========================================================
+   PAPEL
+========================================================= */
+
+.letter {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+}
+
+
+.letter-paper {
+
+    position:
+        relative;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    padding:
+        34px 32px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    border-radius:
+        20px;
+
+    background:
+
+        linear-gradient(
+            145deg,
+            rgba(31,30,25,.97),
+            rgba(13,13,11,.98)
+        );
+
+    box-shadow:
+
+        0 30px 80px
+        rgba(0,0,0,.55),
+
+        inset 0 1px 0
+        rgba(255,255,255,.045);
+
+    overflow:
+        hidden;
+
+    transform:
+
+        perspective(1000px)
+        rotateX(5deg);
+
+    transition:
+        box-shadow .5s ease;
+}
+
+
+.letter-container.visible .letter-paper {
+
+    animation:
+
+        letterGlow
+        4s
+        ease-in-out
+        infinite;
+}
+
+
+@keyframes letterGlow {
+
+    0%,
+    100% {
+
+        box-shadow:
+
+            0 30px 80px
+            rgba(0,0,0,.55),
+
+            inset 0 1px 0
+            rgba(255,255,255,.045);
+
+    }
+
+    50% {
+
+        box-shadow:
+
+            0 30px 90px
+            rgba(0,0,0,.62),
+
+            0 0 35px
+            rgba(220,183,70,.06),
+
+            inset 0 1px 0
+            rgba(255,255,255,.06);
+
+    }
+
+}
+
+
+
+/* =========================================================
+   CONTENIDO CARTA
+========================================================= */
+
+.letter-content {
+
+    position:
+        relative;
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    text-align:
+        center;
+}
+
+
+
+/* =========================================================
+   TÍTULO
+========================================================= */
+
+.letter-title {
+
+    margin-bottom:
+        20px;
+
+    color:
+        #e9c85b;
+
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    font-size:
+        21px;
+
+    font-weight:
+        400;
+
+    line-height:
+        1.4;
+
+    text-shadow:
+
+        0 0 20px
+        rgba(233,200,91,.10);
+}
+
+
+
+/* =========================================================
+   TEXTO
+========================================================= */
+
+.letter-text {
+
+    width:
+        100%;
+
+    min-height:
+        190px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    gap:
+        2px;
+
+    color:
+        rgba(255,255,255,.82);
+
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    font-size:
+        15px;
+
+    font-weight:
+        300;
+
+    line-height:
+        1.75;
+}
+
+
+
+/* =========================================================
+   FIRMA
+========================================================= */
+
+.letter-signature {
+
+    margin-top:
+        auto;
+
+    padding-top:
+        18px;
+
+    color:
+        #d9b84e;
+
+    font-family:
+        "Segoe UI",
+        sans-serif;
+
+    font-size:
+        14px;
+
+    opacity:
+        0;
+
+    transform:
+        translateY(10px);
+
+    transition:
+
+        opacity
+        1s ease,
+
+        transform
+        1s ease;
+}
+
+
+.letter-signature.visible {
+
+    opacity:
+        1;
+
+    transform:
+        translateY(0);
+}
+
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .tulip-final-garden {
+
+        transform:
+
+            translateX(-50%)
+            scale(.70);
+
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .terminal {
+
+        width:
+            92vw;
+
+        height:
+            70vh;
+
+        border-radius:
+            15px;
+    }
+
+
+    .terminal-body {
+
+        padding:
+            22px;
+
+        font-size:
+            13px;
+    }
+
+
+    .flower-content {
+
+        top:
+            18%;
+    }
+
+
+    .love-message {
+
+        font-size:
+            21px;
+    }
+
+
+    .tulip-final-garden {
+
+        top:
+            0;
+
+        width:
+            100vw;
+
+        height:
+            60vh;
+
+        transform:
+
+            translateX(-50%)
+            scale(.58);
+    }
+
+
+    .letter-container {
+
+        width:
+            84vw;
+
+        height:
+            340px;
+
+        bottom:
+            3vh;
+    }
+
+
+    .letter-paper {
+
+        padding:
+            28px 22px;
+
+        border-radius:
+            18px;
+    }
+
+
+    .letter-title {
+
+        font-size:
+            19px;
+
+        margin-bottom:
+            15px;
+    }
+
+
+    .letter-text {
+
+        font-size:
+            13.5px;
+
+        line-height:
+            1.65;
+
+        min-height:
+            190px;
+    }
+
+
+    .letter-signature {
+
+        font-size:
+            13px;
+    }
+
+
+    .music-control {
+
+        top:
+            16px;
+
+        right:
+            16px;
+
+        width:
+            38px;
+
+        height:
+            38px;
+    }
+
+}
+
+
+@media (max-height: 750px) and (min-width: 701px) {
+
+    .tulip-final-garden {
+
+        top:
+            -5vh;
+
+        transform:
+
+            translateX(-50%)
+            scale(.67);
+    }
+
+
+    .letter-container {
+
+        height:
+            310px;
+
+        bottom:
+            2vh;
+    }
+
+
+    .letter-text {
+
+        min-height:
+            165px;
+
+        font-size:
+            14px;
+    }
+
+}
+
+
+@media (max-height: 700px) {
+
+    .tulip-final-garden {
+
+        top:
+            -8vh;
+
+        transform:
+
+            translateX(-50%)
+            scale(.56);
+    }
+
+
+    .letter-container {
+
+        height:
+            285px;
+
+        bottom:
+            2vh;
+    }
+
+
+    .letter-paper {
+
+        padding:
+            22px;
+    }
+
+
+    .letter-title {
+
+        font-size:
+            17px;
+
+        margin-bottom:
+            10px;
+    }
+
+
+    .letter-text {
+
+        min-height:
+            150px;
+
+        font-size:
+            12.5px;
+
+        line-height:
+            1.5;
+    }
+
+
+    .letter-signature {
+
+        padding-top:
+            8px;
+
+        font-size:
+            12px;
+    }
+
+}
+
+
+@media (max-width: 430px) {
+
+    .letter-container {
+
+        width:
+            88vw;
+    }
+
+
+    .letter-paper {
+
+        padding:
+            24px 18px;
+    }
+
+
+    .letter-title {
+
+        font-size:
+            17px;
+    }
+
+
+    .letter-text {
+
+        font-size:
+            12.5px;
+
+        line-height:
+            1.55;
+    }
+
+
+    .tulip-final-garden {
+
+        transform:
+
+            translateX(-50%)
+            scale(.52);
+    }
+
+}
